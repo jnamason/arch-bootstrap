@@ -1,0 +1,237 @@
+#      BOOTSTRAP CONFIG FILE
+#
+# format:
+# =<Category>
+# <tag>, [package-name(s)], [command-name], [description]
+#
+# - tag:
+#       - P: package (pacman)
+#       - A: AUR package (yay)
+#       - C: custom command (combined with "=CMD" entry)
+# - name: package name(s)
+# - command-name (optional): name of "=CMD" entry
+# - description (optional): description of item
+#
+#               OR
+#
+# =CMD name: <<system command to run>
+# =CMD
+# <system commands to run>
+# <...>
+#
+# Please note: =CMD sections must be added at the end, after categories
+
+=System
+P,reflector,mirrorlist,mirror-list optimizer
+P,base-devel cmake binutils boost pacman-contrib,,build tools
+P,linux-lts,,lts kernel
+P,linux-zen,,zen kernel
+P,intel-ucode
+P,openssh libfido2,enable-sshd,openssh
+P,net-tools dnsutils inetutils iproute2 macchanger speedtest-cli nethogs nmap whois mtr iperf3 dog,,network tools
+P,rebuild-detector
+P,tlp,enable-tlp
+P,zsh,zsh
+P,vim,vim
+P,nvim
+P,man-db
+A,nordvpn-bin,nordvpn
+A,mullvad-vpn-bin
+P,tailscale,enable-tailscale
+P,python-pip
+P,jre-openjdk
+A,bluez bluez-utils rofi-bluetooth-git,enable-bluetooth,bluetooth tools
+P,pulseaudio alsa-utils pulseaudio-alsa pulseaudio-bluetooth pavucontrol,pulseaudio,pulseaudio
+P,ntfs-3g,,NTFS support
+P,nfs-utils
+P,smbclient
+A,pure-ftpd
+
+=Xorg
+P,xorg-server xorg-apps xorg-xinit,,xorg display server
+P,picom
+P,arandr
+P,xterm
+P,numlockx
+P,xbindkeys
+P,xclip
+P,xdo
+P,xlsw-git
+P,wmctrl
+A,wmutils-git
+A,xlsw-git
+A,xtitle
+A,xsel
+
+=Desktop Environment
+A,bspwm sxhkd bsp-layout,,bspwm window manager
+P,dunst libnotify notification-daemon,,notification manager
+A,polybar playerctl zscroll-git,,polybar
+P,xdg-utils
+P,alacritty
+P,rxvt-unicode
+P,tmux tmuxinator,,tmux
+P,nitrogen
+A,dmenu2
+P,rofi
+#A,networkmanager-dmenu
+A,betterlockscreen
+P,thunar
+
+=Utilities
+P,zip unzip unrar p7zip gzip bzip2 zstd,,archiving/compression tools
+P,wget
+P,tldr
+#P,strace,,debugging tools
+P,brightnessctl
+A,ranger atool elinks ffmpegthumbnailer highlight mediainfo odt2txt perl-image-exiftool ueberzug epub-thumbnailer-git,,ranger
+P,vifm
+P,source-highlight
+P,fzf
+P,fd
+A,xh
+P,duf
+P,pkgfile
+P,ripgrep
+P,tree
+P,bat
+P,ncdu
+P,dust
+P,htop
+P,btop
+P,feh
+P,scrot
+P,flameshot
+#P,neofetch
+#P,pfetch
+P,mlocate
+P,exa
+P,lsof
+A,bitwarden-cli-bin
+A,sshpass
+#P,scrcpy
+#P,glances
+
+=GUI Apps
+P,firefox
+P,chromium
+#A,tor-browser
+P,zathura zathura-pdf-mupdf,,zathura
+A,spotify spotifywm-git,,spotify
+P,vlc
+P,mpv
+P,galculator
+P,obsidian
+P,notepadqq
+P,cheese
+P,qbittorrent
+#P,bleachbit
+#P,gparted
+A,zoom
+#A,teams
+P,discord
+
+=Infra
+#A,virtualbox virtualbox-ext-oracle virtualbox-host-modules-arch,,virtualbox host utils
+#P,virtualbox-guest-utils xf86-video-vmware,enable-virtualbox,virtualbox guest utils
+#P,qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs dmidecode,kvm,kvm
+P,docker
+P,ansible-core ansible ansible-lint molecule molecule-docker molecule-vagrant,,ansible
+P,kubectl helm kubectx k9s stern kubecolor,,k8s utils
+P,terraform
+#P,vagrant
+P,argocd
+P,age
+A,go-task-bin
+P,direnv
+P,ipcalc
+P,python-pre-commit
+P,jq
+P,sops
+P,go-yq
+
+=Dotfiles
+P,stow git-crypt,dotfiles,pull dotfiles
+
+=Fonts
+P,gucharmap
+A,font-manager
+#P,noto-fonts
+#A,gohufont-powerline
+A,jmk-x11-fonts-git
+A,nerd-fonts-fira-code
+#A,otf-sfmono-patched
+#A,scientifica
+A,siji-ng
+#A,tamzen-font
+#A,termsyn-powerline-font-git
+#A,ttf-icomoon-feather
+#A,ttf-material-design-iconic-font
+#A,ttf-typicons
+#P,otf-font-awesome
+#P,papirus-icon-theme
+#C,,load-fonts,load fonts
+
+=Custom
+P,nodejs npm,lifx,lifx controller
+A,i8kutils dell-bios-fan-control-git tcl tk acpi,fan-control,i8k fan control
+
+=Configuration
+#C,,enable-macspoof,spoof MAC address
+C,,enable-bluetooth_poweron,auto-power bluetooth
+C,,enable-ssh-agent,auto-start ssh-agent
+C,,enable-paccache,enable paccache timer
+C,,enable-fstrim,enable fstrim timer
+C,,mount-data,mount data
+C,,mount-nas,mount NAS shares
+C,,lockscreen,configure lockscreen
+C,,kbd-backlight,keyboard backlight timeout
+C,,backlight,enable screen backlight control
+
+=CMD mirrorlist: country=$(curl -Ss ipinfo.io | awk -F'[:,"]' '/country/ { print $5 }') ; sudo reflector -c ${country:-AU} --sort rate --latest 5 --save /etc/pacman.d/mirrorlist
+=CMD enable-sshd: sudo systemctl enable --now sshd
+=CMD enable-paccache: sudo systemctl enable paccache.timer
+=CMD enable-fstrim: sudo systemctl enable fstrim.timer
+=CMD enable-virtualbox: sudo systemctl enable --now vboxservice
+=CMD enable-bluetooth: sudo systemctl enable --now bluetooth
+=CMD enable-bluetooth-poweron: sudo systemctl enable --now bluetooth-poweron
+=CMD enable-tlp: sudo systemctl enable --now tlp
+=CMD enable-ssh-agent: systemctl --user enable --now ssh-agent
+=CMD enable-tailscale: sudo systemctl enable --now tailscaled
+=CMD zsh: sudo chsh -s $(which zsh) $USER
+=CMD vim: mkdir -p ~/.local/share/vim/{backup,swap,undo,view} ; vim +PlugUpdate +qall
+=CMD lifx: sudo npm install -g lifx-client && gpg -d $DOT/secure/.config/lifx/config.gpg --output ${XDG_CONFIG_HOME:?not set}/lifx/config
+=CMD pulseaudio: pactl set-card-profile alsa_card.usb-DisplayLink_Dell_Universal_Dock_D6000_1801300418-02 off
+=CMD load-fonts: for dir in $(find ~/.local/share/fonts/ -type d) ; do (cd $dir; mkfontdir ; mkfontscale) ; done ; fc-cache -f
+=CMD enable-macspoof: sudo systemctl enable --now macspoof@wlan0.service
+=CMD mount-data: sudo mkdir /data 2> /dev/null ; sblk -o LABEL | grep -q Data && grep -q "\s/data\s" /etc/fstab || echo "LABEL=Data		/data	auto	auto,nouser,exec,rw,async,atime	0 0" | sudo tee -a /etc/fstab
+=CMD mount-nas: sudo systemctl enable mnt-backup.automount mnt-media.automount mnt-workspace.automount
+=CMD lockscreen: betterlockscreen -u $HOME/.local/share/wallpapers
+=CMD kbd-backlight: echo "5m" | sudo tee /sys/class/leds/dell\:\:kbd_backlight/stop_timeout
+=CMD backlight: sudo usermod -aG video $USER
+
+=CMD dotfiles
+git clone --recurse-submodules git@github.com:Subbeh/dotfiles.git ~/.dotfiles
+rm ~/.bashrc ~/.bash_profile 2>/dev/null
+$HOME/.dotfiles/dot load -g -p
+
+=CMD fan-control
+#grep ^dell-smm-hwmon$ /etc/modules 2> /dev/null || echo dell-smm-hwmon | sudo tee -a /etc/modules
+#grep "^options dell-smm-hwmon restricted=0$" /etc/modprobe.d/dell-smm-hwmon.conf 2> /dev/null || echo options dell-smm-hwmon restricted=0 | sudo tee -a /etc/modprobe.d/dell-smm-hwmon.conf
+#sudo modprobe -v i8k
+sudo systemctl enable --now i8kmon.service
+sudo systemctl enable --now dell-bios-fan-control.service
+
+=CMD nordvpn
+sudo groupadd -r nordvpn
+sudo usermod -aG nordvpn $USER
+sudo systemctl enable --now nordvpnd
+nordvpn whitelist add subnet 10.0.0.0/16
+nordvpn login
+
+=CMD kvm
+sudo systemctl enable --now libvirtd.service
+sudo usermod -aG libvirt $USER
+sudo modprobe -r kvm_intel
+sudo modprobe kvm_intel nested=1
+echo "options kvm-intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
