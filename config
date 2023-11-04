@@ -35,12 +35,11 @@ P,zsh,zsh
 P,vim,vim
 P,nvim
 P,man-db
-A,nordvpn-bin,nordvpn
-A,mullvad-vpn-bin
+A,networkmanager
 P,tailscale,enable-tailscale
 P,python-pip
 P,jre-openjdk
-P.blueman
+P,blueman
 A,bluez bluez-utils rofi-bluetooth-git,enable-bluetooth,bluetooth tools
 P,pulseaudio alsa-utils pulseaudio-alsa pulseaudio-bluetooth pavucontrol,pulseaudio,pulseaudio
 P,ntfs-3g,,NTFS support
@@ -131,6 +130,8 @@ P,qbittorrent
 A,zoom
 #A,teams
 P,discord
+P,blueman
+p,networkmanager
 
 =Infra
 #A,virtualbox virtualbox-ext-oracle virtualbox-host-modules-arch,,virtualbox host utils
